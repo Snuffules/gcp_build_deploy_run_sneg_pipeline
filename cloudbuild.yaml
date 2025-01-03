@@ -1,0 +1,42 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 
+           'europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp', 
+           '.']
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 
+           'europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    script: |
+      gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
+        --region europe-central2 --platform managed --allow-unauthenticated --binary-authorization=default --no-traffic
+
+  # Health Check  
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'health-check'
+    script: |
+      curl --fail "https://cloudrunservice-YOUR_CLOUDRUN_ID.europe-central2.run.app/health"
+
+  # Split 50% if health check passed
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'split-traffic'
+    script: |
+      NEW_REVISION=$(gcloud run services describe cloudrunservice \
+        --region=europe-central2 --format="value(status.latestCreatedRevisionName)")
+      OLD_REVISION=$(gcloud run services describe cloudrunservice \
+        --region=europe-central2 \
+        --format="value(status.traffic[0].revisionName)")
+
+      echo "Splitting traffic between $OLD_REVISION and $NEW_REVISION"
+
+      gcloud run services update-traffic cloudrunservice \
+        --region=europe-central2 \
+        --platform managed \
+        --to-revisions ${OLD_REVISION}=50,${NEW_REVISION}=50
+
+images:
+  - 'europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp:latest'
