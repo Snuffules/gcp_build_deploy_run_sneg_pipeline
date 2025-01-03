@@ -1,0 +1,22 @@
+gcloud artifacts repositories create \
+    projects/YOUR_PROJECT/locations/europe-central2/repositories/YOUR_ARTIFACT_REGISTRY \
+    --repository-format=docker \
+    --description="Docker repository"
+
+
+gcloud artifacts repositories create YOUR_ARTIFACT_REGISTRY --repository-format=docker --location=europe-central2 --description="REPO_NAME"
+
+
+gcloud builds submit --region=europe-central2 --config cloudbuild.yaml
+
+npm install -g npm@11.0.0
+
+
+Canary vs. Blue-Green
+This example does a simple canary approach:
+
+Deploy new revision at 0% traffic.
+
+Health-check it.
+If success, shift 50% traffic.
+For a blue-green style, you’d push 0% traffic to the new revision, run more extensive tests, then shift 100% if everything is good. Or you can do partial percentages step by step.
