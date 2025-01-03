@@ -10,11 +10,11 @@
 ## Health Check Implementation
 
 - Healthcheck added to `*.js`:
-'''bash
+```node
 app.get('/health', (req, res) => {
     res.status(200).send('Healthy!');
     });
-...
+```
 
 - Health check using curl - in case of an Error - breaks and exits the pipeline
 - If healthy, deploying new revision with 50% old revision and 50% new revision (can be changed)
@@ -32,12 +32,12 @@ Created to:
 
 Tested with this code:
 
-'''bash
+```node
 app.get('/', (req, res) => {
     const revisionName = process.env.K_REVISION;
     res.send(Hello from revision: ${revisionName});
     });
-'''
+```
 
 ## Domain Configuration
 
