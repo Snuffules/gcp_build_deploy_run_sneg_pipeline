@@ -10,7 +10,7 @@
 ## Health Check Implementation
 
 - Healthcheck added to `*.js`:
-'''node
+'''bash
 app.get('/health', (req, res) => {
     res.status(200).send('Healthy!');
     });
@@ -32,7 +32,7 @@ Created to:
 
 Tested with this code:
 
-'''node
+'''bash
 app.get('/', (req, res) => {
     const revisionName = process.env.K_REVISION;
     res.send(Hello from revision: ${revisionName});
