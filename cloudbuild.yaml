@@ -11,12 +11,15 @@ steps:
            'europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp']
            
   # #Deploy to Cloud Run as new service. If not a new service, then deploy with 0$ traffic, health check and split
-  - name: 'gcr.io/cloud-builders/gcloud'
-    script: |
-      gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
-        --region europe-central2 --platform managed --allow-unauthenticated --binary-authorization=default --no-traffic \
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/vlad-test-ground/vlad-test-1/myapp \
+        --region europe-central2 --platform managed --allow-unauthenticated --no-traffic --ingress internal-and-cloud-load-balancing \
         || gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/vlad-test-ground/vlad-test-1/myapp \
-        --region europe-central2 --platform managed --allow-unauthenticated --ingress internal-and-cloud-load-balancing        
+        --region europe-central2 --platform managed --allow-unauthenticated --ingress internal-and-cloud-load-balancing    
 
   # Health Check  
   - name: 'gcr.io/cloud-builders/gcloud'
