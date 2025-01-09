@@ -25,7 +25,7 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'health-check'
     script: |
-      curl --fail "http://MySQL_DB_IP/health"
+      curl --fail "http://LB_IP/health"
 
   # Split 50% if health check passed
   - name: 'gcr.io/cloud-builders/gcloud'
