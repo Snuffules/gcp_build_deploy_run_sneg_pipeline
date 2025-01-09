@@ -13,13 +13,6 @@
 - Applied Internal traffic and Allow traffic from external Application Load Balancers
 - Following best practices [here](https://cloud.google.com/run/docs/securing/ingress).
 
-- Created Cloud Build that creates container from `*.js` and `package.json`
-- Created container using Dockerfile
-- Pushed to Artifact registry
-- Deployed as Cloud Run service
-- Binary authorisation is enabled
-- New revision is deployed with `--no-traffic` option
-
 ## Health Check Implementation
 
 - Healthcheck added to `*.js`:
