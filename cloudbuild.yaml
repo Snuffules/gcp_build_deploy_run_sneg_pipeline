@@ -16,9 +16,9 @@ steps:
     args:
     - '-c'
     - |
-      gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/vlad-test-ground/vlad-test-1/myapp \
+      gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
         --region europe-central2 --platform managed --allow-unauthenticated --no-traffic --ingress internal-and-cloud-load-balancing \
-        || gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/vlad-test-ground/vlad-test-1/myapp \
+        || gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
         --region europe-central2 --platform managed --allow-unauthenticated --ingress internal-and-cloud-load-balancing    
 
   # Health Check  
