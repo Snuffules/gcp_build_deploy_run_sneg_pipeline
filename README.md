@@ -27,8 +27,8 @@ app.get('/health', (req, res) => {
 
 ## Environment and Configuration
 
-- `node20-alpine` used for small size benefit and quick iterations (Correct if I am wrong, I see that you are using node20 image from Cloud Build logs)
-- Region: `europe-central2` (as per your Cloud Run App)
+- `node20`
+- Region: `europe-central2`
 
 ## Serverless NEG for Cloud Run
 
