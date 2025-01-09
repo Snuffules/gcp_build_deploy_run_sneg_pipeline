@@ -1,5 +1,18 @@
 ## Cloud Build and Deployment Process
 
+- Detailed overview of the steps executed from the cloudbuild.yaml:
+- Create container from your *.js and package.json files using Dockerfile
+- For Dockerfile used in this solution, node20 is used as docker image
+- Push container to Artifact Registry
+- Deploy with Cloud Run as service, if new service is created, deploy with 100% traffic serving, otherwise  new revision with 0% traffic
+- Region europe-central2 is used(as per your current Cloud Run service)
+- Perform health check(added /health to server.js)
+- curl is used to check Serverless NEG external IP with /health
+- If health check failed, pipeline will stop execution
+- Split traffic to 50% between new and old revision(canary deployment)
+- Applied Internal traffic and Allow traffic from external Application Load Balancers
+- Following best practices [here](https://cloud.google.com/run/docs/securing/ingress).
+
 - Created Cloud Build that creates container from `*.js` and `package.json`
 - Created container using Dockerfile
 - Pushed to Artifact registry
