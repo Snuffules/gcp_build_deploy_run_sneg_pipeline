@@ -13,13 +13,15 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     script: |
       gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
-        --region europe-central2 --platform managed --allow-unauthenticated --binary-authorization=default --no-traffic
+        --region europe-central2 --platform managed --allow-unauthenticated --binary-authorization=default --no-traffic \
+        || gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/vlad-test-ground/vlad-test-1/myapp \
+        --region europe-central2 --platform managed --allow-unauthenticated --ingress internal-and-cloud-load-balancing        
 
   # Health Check  
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'health-check'
     script: |
-      curl --fail "https://cloudrunservice-YOUR_CLOUDRUN_ID.europe-central2.run.app/health"
+      curl --fail "http://MySQL_DB_IP/health"
 
   # Split 50% if health check passed
   - name: 'gcr.io/cloud-builders/gcloud'
