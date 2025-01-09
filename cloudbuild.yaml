@@ -9,7 +9,8 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 
            'europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp']
-
+           
+  # #Deploy to Cloud Run as new service. If not a new service, then deploy with 0$ traffic, health check and split
   - name: 'gcr.io/cloud-builders/gcloud'
     script: |
       gcloud run deploy cloudrunservice --image europe-central2-docker.pkg.dev/YOUR_PROJECT/YOUR_ARTIFACT_REGISTRY/myapp \
