@@ -3,6 +3,24 @@ gcloud artifacts repositories create \
     --repository-format=docker \
     --description="Docker repository"
 
+gcloud projects add-iam-policy-binding YOUR_PROJECT \
+    --member=serviceAccount:$(gcloud projects describe YOUR_PROJECT \
+    --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+    --role="roles/clouddeploy.jobRunner"
+
+gcloud iam service-accounts add-iam-policy-binding $(gcloud projects describe YOUR_PROJECT \
+    --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+    --member=serviceAccount:$(gcloud projects describe YOUR_PROJECT \
+    --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+    --role="roles/iam.serviceAccountUser" \
+    --project=YOUR_PROJECT
+
+
+gcloud projects add-iam-policy-binding YOUR_PROJECT \
+    --member=serviceAccount:$(gcloud projects describe YOUR_PROJECT \
+    --format="value(projectNumber)")-compute@developer.gserviceaccount.com \
+    --role="roles/run.developer"
+
 
 gcloud artifacts repositories create YOUR_ARTIFACT_REGISTRY --repository-format=docker --location=europe-central2 --description="REPO_NAME"
 
